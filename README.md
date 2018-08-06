@@ -2,11 +2,11 @@
 用于收集网站URL的脚本
 
 
-'---------------------'
+#---------------------------
 
-URL collect by zhaijiahui
+#URL collect by zhaijiahui
 
-'---------------------'
+#---------------------------
 
 
 -u  Input your domain
