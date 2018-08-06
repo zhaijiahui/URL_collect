@@ -211,28 +211,3 @@ Usage: get_url.py -u http://www.target.com/ -d 2 -s 2 -o'''
 	print('-------------------------------敏感路径----------------------------------')
 	for i in mingan:
 		print(i)
-
-
-
-
-
-# lurl = 'http://www.xingtai.gov.cn/zwgk/jyta/'
-# i = '../../gzff/'
-
-# rurl=lurl.split('/')
-# i=i.split('/')
-
-# print(rurl,i)
-
-# l1 = len(rurl)
-# l2 = len(i)
-# bb= i.count('..')
-# temp = ''
-# for x in range(l1-bb):
-# 	temp = temp+rurl[x]+'/'
-# 	# print(url[x],end='/')
-# for y in range(bb,l2):
-# 	temp = temp+i[y]+'/'
-# 	# print(i[y],end='/')
-# print(temp[:-1])
-# # print(aa)
