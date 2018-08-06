@@ -5,14 +5,6 @@ import getopt,sys
 import time
 # import threading
 
-# from requests.packages.urllib3.exceptions import InsecureRequestWarning,InsecurePlatformWarning   # 屏蔽错误提示的一般方法，配合下面两个disable
-# import requests.packages.urllib3.util.ssl_                   # 解决部分ssl证书版本不正确的问题
-# requests.packages.urllib3.util.ssl_.DEFAULT_CIPHERS = 'ALL'
-# # import Queue
-# # i = 0
-# # requests.adapters.DEFAULT_RETRIES=5 增加重试连接次数
-# requests.packages.urllib3.disable_warnings(InsecureRequestWarning) # 移除ssl错误告警
-# requests.packages.urllib3.disable_warnings(InsecurePlatformWarning)
 
 def please_geturl(url,s_url,sleeptime):
 	for lurl in url:
