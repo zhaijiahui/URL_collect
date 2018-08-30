@@ -17,4 +17,6 @@
 
 -s  Prevent requests too fast
 
-Usage: get_url.py -u http://www.target.com/ -d 2 -s 2 -o
+Usage: 
+	get_url.py -u http://www.target.com/ -d 2
+	get_url.py -u http://www.target.com/ -d 2 -s 2 -o
