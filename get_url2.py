@@ -1,21 +1,21 @@
 # -*- coding:utf-8 -*-
+# run python3
+# author: zhaijiahui
 import requests
 import re
 import getopt,sys
 import time
-# import threading
 
 
-def please_geturl(url,s_url,sleeptime):
+def please_geturl(url,s_url,sleeptime): # 获取页面链接
 	for lurl in url:
 		headers = {
 			'User-Agent':'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:57.0) Gecko/20100101 Firefox/57.0',
 		}
 		try:
-			# print()
 			r = requests.get(lurl,verify=True,headers=headers)
 		except Exception as e:
-			print('[*]	' + lurl+'	链接出错......')
+			print('[*]	' + lurl+'	链接访问出错......')
 			continue
 		
 		
@@ -25,20 +25,22 @@ def please_geturl(url,s_url,sleeptime):
 			except UnicodeDecodeError:
 				html = r.content.decode('utf-8')
 		except UnicodeDecodeError:
-			print('[*]	' + lurl+'   链接无法解析......')
+			print('[*]	' + lurl +'   链接内容无法解析......')
 			continue
 		
 		
 		# print(html)
-		get_url2 =get_url3=get_url4=get_url5=get_url6=get_url7=[]
-		get_url2 = re.findall('href="([^,\'\"\(;{]{9,}?)"',html)
+		get_url2 = get_url3 = get_url4 = get_url5 = get_url6 = get_url7 = []
+		# ---------------------页面URL-------------------------------
+		get_url2 = re.findall('href="([^,\'\"\(;{]{9,}?)"',html) 
 		get_url3 = re.findall('href=\'([^,\'\"\(;{]{9,}?)\'',html)
 		get_url4 = re.findall('src="([^,\'\"\(;{]{9,}?)"',html)
 		get_url5 = re.findall('src=\'([^,\'\"\(;{]{9,}?)\'',html)
 		get_url6 = re.findall('data-url=\'([^,\'\"\(;{]{9,}?)\'',html)
 		get_url7 = re.findall('data-url="([^,\'\"\(;{]{9,}?)"',html)
-
+		# ----------------------页面IP--------------------------------
 		ipv4 = re.findall('^((25[0-5]|2[0-4]\d|[01]?\d\d?)\.){3}(25[0-5]|2[0-4]\d|[01]?\d\d?)$',html)
+		# ----------------------包含绝对路径---------------------------
 		cmd = re.findall('([A-Z]:[\\/][^,\'\"\(;{]{9,}?)"',html)
 		cmd1 = re.findall('\'([A-Z]:[\\/][^,\'\"\(;{]{9,}?)\'',html)
 		mingan = []
@@ -56,13 +58,12 @@ def please_geturl(url,s_url,sleeptime):
 		get_url2.extend(get_url6)
 		get_url2.extend(get_url7)
 
-		# get_url2.extend(ipv4) # IP
-
 		get_url = list(set(get_url2))
 		# print(get_url)
 		get_url_list = []
-		suffix = ['jpg','mp4','gif','png','gif-s1','jpg-s1','png-s1','ico','swf','css','doc','docx','xls']
-		static = ['html','js']
+		suffix = ['jpg','mp4','gif','png','gif-s1','jpg-s1','png-s1','ico','swf','doc','docx','xls']
+		static = ['html','js','css']
+		dynamics = ['?', 'asp', 'php', 'jsp','aspx','jspx','shtml']
 		for i in get_url:
 			if '../' in i:
 				rurl=lurl.split('/')
@@ -84,38 +85,35 @@ def please_geturl(url,s_url,sleeptime):
 				# print(temp)
 				get_url_list.append(temp)
 			elif lurl in i:
-				# print(i)
 				get_url_list.append(i)
 			elif 'http://' in i:
-				# print(i)
 				get_url_list.append(i)
 			elif 'https://' in i:
-				# print(i)
 				get_url_list.append(i)
 			elif i[:2] == '//':
 				temp  ='http:'+ i
-				# print(temp)
 				get_url_list.append(temp)
 			elif i[:2] == './':
 				temp = s_url[:-1]+i[1:]
 				get_url_list.append(temp)
 			else:
 				temp = s_url[:-1]+i
-				# print(temp)
 				get_url_list.append(temp)
 	# print(get_url_list)
 	time.sleep(sleeptime)
-	r_get_url_list = []
+	r_get_url_list = [] # 收集下一层所需的url
 	if get_url_list: # 非空列表
 		for x in get_url_list:
 			if x.split('.')[-1] not in suffix: # 排除图片视频等资源文件
 				r_get_url_list.append(x)
-				if '?' in x:
-					script_list.append(x)
-				elif x.split('.')[-1] in static:
-					html_list.append(x)
-				else:
-					other_list.append(x)
+				for scr in dynamics:
+					if scr in x:
+						script_list.append(x)
+				if '?' not in x:
+					if x.split('.')[-1] in static:
+						html_list.append(x)
+					else:
+						other_list.append(x)
 			else:
 				suffix_list.append(x)
 	else:
@@ -124,18 +122,16 @@ def please_geturl(url,s_url,sleeptime):
 		
 
 if __name__ == '__main__':
+	# 初始值：深度,是否保存文件，睡眠时间
 	deep = 1
 	writefile = 0
 	sleep = 0
+	# 声明列表
 	suffix_list = []
 	script_list = []
 	other_list = []
 	html_list = []
-	# 用途不一样，只声明一种的话会报错
-	n_suffix_list = []
-	n_script_list = []
-	n_other_list = []
-	n_html_list = []
+
 	Usage='''
 # ------------------------------
 # URL collect by zhaijiahui
@@ -148,8 +144,8 @@ Usage: get_url.py -u http://www.target.com/ -d 2 -s 2 -o'''
 	if not len(sys.argv[1:]):
 		print(Usage)
 		exit()
-	# url= ["http://www.xtgaj.gov.cn/"]
-	# s_url = "http://www.xtgaj.gov.cn/"
+	# url= ["http://www.1993s.top/"]
+	# s_url = "http://www.1993s.top/"
 	try:
 		options,args = getopt.getopt(sys.argv[1:],"hu:d:os:",["help","url=","deep=","out","sleep"])
 	except getopt.GetoptError:
@@ -177,36 +173,32 @@ Usage: get_url.py -u http://www.target.com/ -d 2 -s 2 -o'''
 		# if r_get_url_list == None:
 		# 	break
 		url = r_get_url_list
-		n_html_list.extend(html_list)
-		n_other_list.extend(other_list)
-		n_script_list.extend(script_list)
-		n_suffix_list.extend(suffix_list)
 	if writefile == 1:
 		with open(time.ctime()+'_'+s_url+'_result.txt','w+') as f:
 			f.write('----------------------------脚本或可传参目录------------------------------\n')
-			for i in list(set(n_script_list)):
+			for i in list(set(script_list)):
 				f.write(i+'\n')
 			f.write('-------------------------------静态目录----------------------------------\n')
-			for i in list(set(n_html_list)):
+			for i in list(set(html_list)):
 				f.write(i+'\n')
 			f.write('-------------------------------其他目录----------------------------------\n')
-			for i in list(set(n_other_list)):
+			for i in list(set(other_list)):
 				f.write(i+'\n')
 			f.write('---------------------------图片视频等资源目录-----------------------------\n')	
-			for i in list(set(n_suffix_list)):
+			for i in list(set(suffix_list)):
 				f.write(i+'\n')
 	
 	print('----------------------------脚本或可传参目录------------------------------')
-	for i in list(set(n_script_list)):
+	for i in list(set(script_list)):
 		print(i)
 	print('-------------------------------静态目录----------------------------------')
-	for i in list(set(n_html_list)):
+	for i in list(set(html_list)):
 		print(i)
 	print('-------------------------------其他目录----------------------------------')
-	for i in list(set(n_other_list)):
+	for i in list(set(other_list)):
 		print(i)
 	print('---------------------------图片视频等资源目录-----------------------------')
-	for i in list(set(n_suffix_list)):
+	for i in list(set(suffix_list)):
 		print(i)
 	print('-------------------------------敏感路径----------------------------------')
 	for i in mingan:
