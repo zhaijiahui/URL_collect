@@ -131,6 +131,11 @@ if __name__ == '__main__':
 	script_list = []
 	other_list = []
 	html_list = []
+	# 多深度列表生命
+	n_suffix_list = []
+	n_script_list = []
+	n_other_list = []
+	n_html_list = []
 
 	Usage='''
 # ------------------------------
@@ -140,7 +145,7 @@ if __name__ == '__main__':
 -d  Crawl depth
 -o  Save result
 -s  Prevent requests too fast
-Usage: get_url.py -u http://www.target.com/ -d 2 -s 2 -o'''
+Usage: get_url2.py -u http://www.target.com/ -d 2 -s 2 -o'''
 	if not len(sys.argv[1:]):
 		print(Usage)
 		exit()
@@ -173,6 +178,10 @@ Usage: get_url.py -u http://www.target.com/ -d 2 -s 2 -o'''
 		# if r_get_url_list == None:
 		# 	break
 		url = r_get_url_list
+		n_suffix_list.extend(suffix_list)
+		n_script_list.extend(script_list)
+		n_other_list.extend(other_list)
+		n_html_list.extend(html_list)
 	if writefile == 1:
 		with open(time.ctime()+'_'+s_url+'_result.txt','w+') as f:
 			f.write('----------------------------脚本或可传参目录------------------------------\n')
