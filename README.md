@@ -1,5 +1,5 @@
 ﻿# URL_collect
-用于收集网站URL的脚本
+用于收集网站内所有连接，并对爬取结果分类。
 
 
 #---------------------------
@@ -20,3 +20,14 @@
 Usage: 
 	get_url.py -u http://www.target.com/ -d 2
 	get_url.py -u http://www.target.com/ -d 2 -s 2 -o
+
+
+
+##  bug
+
++ 1 修复 http://kpjy.kaiping.gov.cn/kpqyzx/ || /kpqyzx/js/MSClass.js  此类型爬取异常
+
+
+
+
+

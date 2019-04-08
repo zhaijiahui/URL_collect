@@ -28,11 +28,10 @@ def please_geturl(url,s_url,sleeptime): # 获取页面链接
 			print('[*]	' + lurl +'   链接内容无法解析......')
 			continue
 		
-		
 		# print(html)
 		get_url2 = get_url3 = get_url4 = get_url5 = get_url6 = get_url7 = []
 		# ---------------------页面URL-------------------------------
-		get_url2 = re.findall('href="([^,\'\"\(;{]{9,}?)"',html) 
+		get_url2 = re.findall('href="([^,\'\"\(;{]{9,}?)"',html)
 		get_url3 = re.findall('href=\'([^,\'\"\(;{]{9,}?)\'',html)
 		get_url4 = re.findall('src="([^,\'\"\(;{]{9,}?)"',html)
 		get_url5 = re.findall('src=\'([^,\'\"\(;{]{9,}?)\'',html)
@@ -84,12 +83,15 @@ def please_geturl(url,s_url,sleeptime): # 获取页面链接
 					temp = temp[:-3]
 				# print(temp)
 				get_url_list.append(temp)
-			elif lurl in i:
+			elif lurl in i: # 
 				get_url_list.append(i)
-			elif 'http://' in i:
+			elif 'http://' in i: # http://www.xxx.com/main.js
 				get_url_list.append(i)
-			elif 'https://' in i:
+			elif 'https://' in i: # https://www.xxx.com/main.js
 				get_url_list.append(i)
+			elif lurl.split('/')[-1] in i: # http://kpjy.kaiping.gov.cn/kpqyzx/ || /kpqyzx/js/MSClass.js
+				temp = '/'.join(lurl.split('/')[:-2])+i
+				get_url_list.append(temp)
 			elif i[:2] == '//':
 				temp  ='http:'+ i
 				get_url_list.append(temp)
@@ -122,16 +124,15 @@ def please_geturl(url,s_url,sleeptime): # 获取页面链接
 		
 
 if __name__ == '__main__':
-	# 初始值：深度,是否保存文件，睡眠时间
-	deep = 1
-	writefile = 0
-	sleep = 0
-	# 声明列表
+	deep = 1 # 深度
+	writefile = 0 # 是否保存文件
+	sleep = 0 # 睡眠时间
+	# 列表声明
 	suffix_list = []
 	script_list = []
 	other_list = []
 	html_list = []
-	# 多深度列表生命
+	# 多深度列表声明
 	n_suffix_list = []
 	n_script_list = []
 	n_other_list = []
@@ -144,7 +145,7 @@ if __name__ == '__main__':
 -u  Input your domain
 -d  Crawl depth
 -o  Save result
--s  Prevent requests too fast
+-s  sleep time,Prevent requests too fast
 Usage: get_url2.py -u http://www.target.com/ -d 2 -s 2 -o'''
 	if not len(sys.argv[1:]):
 		print(Usage)
