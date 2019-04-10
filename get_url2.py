@@ -64,10 +64,9 @@ def please_geturl(url,s_url,sleeptime): # 获取页面链接
 		static = ['html','js','css']
 		dynamics = ['?', 'asp', 'php', 'jsp','aspx','jspx','shtml']
 		for i in get_url:
-			if '../' in i:
+			if '../' in i: # ../../../js/MSClass.js
 				rurl=lurl.split('/')
 				i=i.split('/')
-
 				l1 = len(rurl)
 				l2 = len(i)
 				bb= i.count('..')
@@ -83,22 +82,22 @@ def please_geturl(url,s_url,sleeptime): # 获取页面链接
 					temp = temp[:-3]
 				# print(temp)
 				get_url_list.append(temp)
-			elif lurl in i: # 
+			# elif lurl in i: # 
+			# 	get_url_list.append(i)
+			elif 'http://' in i:            # http://www.xxx.com/main.js
 				get_url_list.append(i)
-			elif 'http://' in i: # http://www.xxx.com/main.js
+			elif 'https://' in i:          # https://www.xxx.com/main.js
 				get_url_list.append(i)
-			elif 'https://' in i: # https://www.xxx.com/main.js
-				get_url_list.append(i)
-			elif lurl.split('/')[-1] in i: # http://kpjy.kaiping.gov.cn/kpqyzx/ || /kpqyzx/js/MSClass.js
+			elif lurl.split('/')[-2] in i:  # http://kpjy.kaiping.gov.cn/kpqyzx/ || /kpqyzx/js/MSClass.js
 				temp = '/'.join(lurl.split('/')[:-2])+i
 				get_url_list.append(temp)
-			elif i[:2] == '//':
+			elif i[:2] == '//':            # //kpqyzx/js/MSClass.js
 				temp  ='http:'+ i
 				get_url_list.append(temp)
-			elif i[:2] == './':
+			elif i[:2] == './':            # ./kpqyzx/js/MSClass.js
 				temp = s_url[:-1]+i[1:]
 				get_url_list.append(temp)
-			else:
+			else:                             # /kpqyzx/js/MSClass.js
 				temp = s_url[:-1]+i
 				get_url_list.append(temp)
 	# print(get_url_list)

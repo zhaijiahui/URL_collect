@@ -26,6 +26,7 @@ Usage:
 ##  bug
 
 + 1 修复 http://kpjy.kaiping.gov.cn/kpqyzx/ || /kpqyzx/js/MSClass.js  此类型爬取异常
++ 2 url 拼接逻辑问题
 
 
 
