@@ -88,7 +88,7 @@ def please_geturl(url,s_url,sleeptime): # 获取页面链接
 				get_url_list.append(i)
 			elif 'https://' in i:          # https://www.xxx.com/main.js
 				get_url_list.append(i)
-			elif lurl.split('/')[-2] in i:  # http://kpjy.kaiping.gov.cn/kpqyzx/ || /kpqyzx/js/MSClass.js
+			elif lurl.split('/')[-2] in i:  # http://xxx.cn/kpqyzx/ || /kpqyzx/js/MSClass.js
 				temp = '/'.join(lurl.split('/')[:-2])+i
 				get_url_list.append(temp)
 			elif i[:2] == '//':            # //kpqyzx/js/MSClass.js
